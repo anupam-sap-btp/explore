@@ -1,0 +1,143 @@
+_schema-version: 3.3.0
+ID: explore
+description: A simple CAP project.
+version: 1.0.0
+modules:
+  - name: explore-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: explore-db
+      - name: uaa_explore
+      - name: explore-destination-service
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+      disk-quota: 256MB
+      instances: 1
+      memory: 256MB
+    build-parameters:
+      builder: npm-ci
+  - name: explore-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: explore-db
+    parameters:
+      buildpack: nodejs_buildpack
+  - name: explore-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: explore-destination-service
+        parameters:
+          content-target: true
+      - name: explore_html_repo_host
+        parameters:
+          service-key:
+            name: explore_html_repo_host-key
+      - name: uaa_explore
+        parameters:
+          service-key:
+            name: uaa_explore-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: exploreappui_explore_html_repo_host
+              ServiceInstanceName: explore-html5-app-host-service
+              ServiceKeyName: explore_html_repo_host-key
+              sap.cloud.service: exploreappui
+            - Authentication: OAuth2UserTokenExchange
+              Name: exploreappui_uaa_explore
+              ServiceInstanceName: explore-xsuaa-service
+              ServiceKeyName: uaa_explore-key
+              sap.cloud.service: exploreappui
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+  - name: explore-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: explore_html_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - productlistui.zip
+          name: productlistui
+          target-path: resources/
+  - name: productlistui
+    type: html5
+    path: app/productlistui
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms:
+        []
+resources:
+  - name: explore-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: explore-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+              - Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+                Name: explore-srv-api
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: explore-destination-service
+      service-plan: lite
+    requires:
+      - name: srv-api
+  - name: explore_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: explore-html5-app-host-service
+      service-plan: app-host
+  - name: uaa_explore
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: explore-${org}-${space}
+      path: ./xs-security.json
+      service: xsuaa
+      service-name: explore-xsuaa-service
+      service-plan: application
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
