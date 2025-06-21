@@ -2,7 +2,11 @@ using { explore.db as db } from '../db/schema';
 
 service ProductService {
 
-    entity Products as projection on db.Products;
+    entity Products as projection on db.Products
+    
+    actions {
+    action AddStock(stock: Integer) returns String;
+    }
 
 }
 
@@ -23,6 +27,7 @@ annotate ProductService.Products with @(
             { $Type: 'UI.DataField', Value: type },
             { $Type: 'UI.DataField', Value: price },
             { $Type: 'UI.DataField', Value: stock},
+            { $Type: 'UI.DataFieldForAnnotation', Target: '@UI.FieldGroup#Stock', Label: 'Stock'},
             { $Type: 'UI.DataField', Value: unit}
         ],
         HeaderFacets  : [
@@ -31,7 +36,17 @@ annotate ProductService.Products with @(
         Facets  : [
             { $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#General', Label: 'General'}
         ],
-        
+        FieldGroup #Stock : {
+            Data: [
+                { $Type: 'UI.DataField', Value: stock},
+                {
+                    $Type : 'UI.DataFieldForAction',
+                    Label : '{desc}',
+                    Action : 'ProductService.AddStock',
+                    Inline : true
+                },
+            ]
+        },
         FieldGroup #Header : {
             Data: [
                 { $Type: 'UI.DataField', Value: id },

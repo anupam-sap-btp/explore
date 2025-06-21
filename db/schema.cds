@@ -8,4 +8,5 @@ entity Products {
     unit: String(5);
     price: Integer;
     currency: String(5);
+    virtual desc: String(20); 
 }

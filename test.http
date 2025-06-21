@@ -1,0 +1,6 @@
+###
+GET http://localhost:4004/odata/v4/product/Products
+
+
+###
+POST http://localhost:4004/odata/v4/product/Products(101)/AddStock
