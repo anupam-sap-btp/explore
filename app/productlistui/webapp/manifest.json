@@ -29,7 +29,13 @@
       "inbounds": {
         "exploreprodui-inbound": {
           "signature": {
-            "parameters": {},
+            "parameters": {
+              "type": {
+                "filter":{
+                  "value": "Mobile"
+                }
+              }
+            },
             "additionalParameters": "allowed"
           },
           "semanticObject": "exploreproduct",

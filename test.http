@@ -4,3 +4,29 @@ GET http://localhost:4004/odata/v4/product/Products
 
 ###
 POST http://localhost:4004/odata/v4/product/Products(101)/AddStock
+
+###
+POST http://localhost:4004/odata/v4/product/UpdateStatus
+Content-Type: application/json
+
+{
+  "payload": {
+    "id": "1b88424b-f417-4334-9c24-5cb7df191586",
+    "event": "TmsImportFinished",
+    "severity": "INFO",
+    "description": "Import Finished in the 'Prod_Node' node",
+    "details": [
+      284
+    ]
+  }
+}
+
+
+
+###
+{
+    "payload": {"id": "9f746687-a2dc-4f91-9ccd-ea4f18753b6b",
+    "event": "TmsImportFinished",
+    "severity": "INFO",
+    "description": "Import Finished in the Prod_Node node"}
+}

@@ -9,4 +9,12 @@ entity Products {
     price: Integer;
     currency: String(5);
     virtual desc: String(20); 
+    virtual addStockEnabled: Boolean;
+    virtual criticalityInd: Integer;
+    virtual stockCriticality: Integer;
 }
+
+view Prod as select from Products {
+    sum(price) as TotalPrice: Integer,
+    key type: String
+} group by type;
