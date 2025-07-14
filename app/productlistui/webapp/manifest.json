@@ -31,7 +31,7 @@
           "signature": {
             "parameters": {
               "type": {
-                "filter":{
+                "filter": {
                   "value": "Mobile"
                 }
               }
@@ -135,6 +135,15 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "TestActionAddAll": {
+                      "press": "productlistui.ext.controller.TestActionAddAll.handleAddAll",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "Add Stock All CA"
+                    }
                   }
                 }
               }

@@ -7,6 +7,11 @@ module.exports = cds.service.impl( (srv) => {
 
 
     srv.on('AddStock', add_stock);
+    srv.on('UpdateStockForAll', (req) => {
+        console.log('Update All Triggered');
+        console.log(req.data);
+        return 'Test';
+    });
 
     srv.after('READ', 'Products', (lines) => { 
         if(Array.isArray(lines)) {

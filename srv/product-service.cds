@@ -11,6 +11,7 @@ service ProductService {
     };
 
     action UpdateStatus(payload : object) returns String;
+    action UpdateStockForAll( payload: array of Products) returns String;
 
     // @odata.draft.enabled
     entity Products as projection on db.Products
@@ -73,6 +74,11 @@ annotate ProductService.Products with @(UI: {
             $Type: 'UI.DataField',
             Value: stock
         },
+        // {
+        //    $Type: 'UI.DataFieldForAction',
+        //    Action: 'ProductService.EntityContainer/UpdateStockForAll', 
+        //    Label: 'Add Stock to All',
+        //  },
         {
             $Type : 'UI.DataFieldForAnnotation',
             Target: '@UI.FieldGroup#Stock',
