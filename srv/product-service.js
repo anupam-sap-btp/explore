@@ -7,10 +7,27 @@ module.exports = cds.service.impl( (srv) => {
 
 
     srv.on('AddStock', add_stock);
-    srv.on('UpdateStockForAll', (req) => {
+    srv.on('UpdateStockForAll', async (req) => {
         console.log('Update All Triggered');
-        console.log(req.data);
-        return 'Test';
+        console.log(req.data.payload[0]);
+        // let data = req.data.Payload[0];
+        // srv.send('AddStock', '/101', {stock: 20 });
+
+        let res1 = await SELECT.from('Products');
+        console.log('RES1>>>',res1);
+
+        let res2 = await srv.run(SELECT.from('Products'));
+        console.log('RES2>>>', res2);
+
+        let promiseArray = req.data.payload.map(line => 
+        srv.send({ event: 'AddStock', entity: 'Products', data: {stock:30}, params: [{id:line.id}]}));
+
+        await Promise.all(promiseArray)
+        .then(res => console.log('Result>>>>>',res))
+        .catch(err => console.log('Error>>>>>>',err));
+        
+        req.notify("Test");
+        // return 'Test';
     });
 
     srv.after('READ', 'Products', (lines) => { 

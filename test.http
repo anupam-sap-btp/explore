@@ -4,6 +4,11 @@ GET http://localhost:4004/odata/v4/product/Products
 
 ###
 POST http://localhost:4004/odata/v4/product/Products(101)/AddStock
+Content-Type: application/json
+
+{
+  "stock": 10
+}
 
 ###
 POST http://localhost:4004/odata/v4/product/UpdateStatus
@@ -26,8 +31,12 @@ POST http://localhost:4004/odata/v4/product/UpdateStockForAll
 Content-Type: application/json
 
 {
-  "payload": ["AAPL", "MSFT", "GOOGL"]
+  "payload": []
 }
+
+
+###
+GET http://localhost:4004/odata/v4/product/Products?$filter=type%20eq%20%22Mobile%22
 
 ###
 {

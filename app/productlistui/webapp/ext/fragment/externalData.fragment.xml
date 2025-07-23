@@ -1,0 +1,4 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" controllerName="productlistui.ext.controller.ObjPageCustController">
+    <Text id="abcd" text="ABCDEFGH"/>
+    <Button id='bt1' text='{testModel>/name}' press="onClick"/>
+</core:FragmentDefinition>

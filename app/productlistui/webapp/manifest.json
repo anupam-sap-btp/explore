@@ -1,175 +1,212 @@
 {
-  "_version": "1.65.0",
-  "sap.app": {
-    "id": "productlistui",
-    "type": "application",
-    "i18n": "i18n/i18n.properties",
-    "applicationVersion": {
-      "version": "0.0.1"
-    },
-    "title": "{{appTitle}}",
-    "description": "{{appDescription}}",
-    "resources": "resources.json",
-    "sourceTemplate": {
-      "id": "@sap/generator-fiori:lrop",
-      "version": "1.17.5",
-      "toolsId": "bb2fab53-0305-4b55-b1af-f1dc6f9ccc9d"
-    },
-    "dataSources": {
-      "mainService": {
-        "uri": "/odata/v4/product/",
-        "type": "OData",
-        "settings": {
-          "annotations": [],
-          "odataVersion": "4.0"
-        }
-      }
-    },
-    "crossNavigation": {
-      "inbounds": {
-        "exploreprodui-inbound": {
-          "signature": {
-            "parameters": {
-              "type": {
-                "filter": {
-                  "value": "Mobile"
+    "_version": "1.65.0",
+    "sap.app": {
+        "id": "productlistui",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:lrop",
+            "version": "1.17.5",
+            "toolsId": "bb2fab53-0305-4b55-b1af-f1dc6f9ccc9d"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v4/product/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "odataVersion": "4.0"
                 }
-              }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "exploreprodui-inbound": {
+                    "signature": {
+                        "parameters": {
+                            "type": {
+                                "filter": {
+                                    "value": "Mobile"
+                                }
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "exploreproduct",
+                    "action": "manage",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "icon": "sap-icon://product"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.136.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "productlistui.i18n.i18n"
+                }
             },
-            "additionalParameters": "allowed"
-          },
-          "semanticObject": "exploreproduct",
-          "action": "manage",
-          "title": "{{flpTitle}}",
-          "subTitle": "{{flpSubtitle}}",
-          "icon": "sap-icon://product"
-        }
-      }
-    }
-  },
-  "sap.ui": {
-    "technology": "UI5",
-    "icons": {
-      "icon": "",
-      "favIcon": "",
-      "phone": "",
-      "phone@2": "",
-      "tablet": "",
-      "tablet@2": ""
-    },
-    "deviceTypes": {
-      "desktop": true,
-      "tablet": true,
-      "phone": true
-    }
-  },
-  "sap.ui5": {
-    "flexEnabled": true,
-    "dependencies": {
-      "minUI5Version": "1.136.0",
-      "libs": {
-        "sap.m": {},
-        "sap.ui.core": {},
-        "sap.fe.templates": {}
-      }
-    },
-    "contentDensities": {
-      "compact": true,
-      "cozy": true
-    },
-    "models": {
-      "i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "settings": {
-          "bundleName": "productlistui.i18n.i18n"
-        }
-      },
-      "": {
-        "dataSource": "mainService",
-        "preload": true,
-        "settings": {
-          "operationMode": "Server",
-          "autoExpandSelect": true,
-          "earlyRequests": true
-        }
-      },
-      "@i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "uri": "i18n/i18n.properties"
-      }
-    },
-    "resources": {
-      "css": []
-    },
-    "routing": {
-      "config": {},
-      "routes": [
-        {
-          "pattern": ":?query:",
-          "name": "ProductsList",
-          "target": "ProductsList"
-        },
-        {
-          "pattern": "Products({key}):?query:",
-          "name": "ProductsObjectPage",
-          "target": "ProductsObjectPage"
-        }
-      ],
-      "targets": {
-        "ProductsList": {
-          "type": "Component",
-          "id": "ProductsList",
-          "name": "sap.fe.templates.ListReport",
-          "options": {
-            "settings": {
-              "contextPath": "/Products",
-              "variantManagement": "Page",
-              "navigation": {
-                "Products": {
-                  "detail": {
-                    "route": "ProductsObjectPage"
-                  }
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
                 }
-              },
-              "controlConfiguration": {
-                "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": {
-                    "type": "ResponsiveTable"
-                  },
-                  "actions": {
-                    "TestActionAddAll": {
-                      "press": "productlistui.ext.controller.TestActionAddAll.handleAddAll",
-                      "visible": true,
-                      "enabled": true,
-                      "requiresSelection": false,
-                      "text": "Add Stock All CA"
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "config": {},
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "ProductsList",
+                    "target": "ProductsList"
+                },
+                {
+                    "pattern": "Products({key}):?query:",
+                    "name": "ProductsObjectPage",
+                    "target": "ProductsObjectPage"
+                }
+            ],
+            "targets": {
+                "ProductsList": {
+                    "type": "Component",
+                    "id": "ProductsList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/Products",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "Products": {
+                                    "detail": {
+                                        "route": "ProductsObjectPage"
+                                    }
+                                }
+                            },
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "ResponsiveTable"
+                                    },
+                                    "actions": {
+                                        "TestActionAddAll": {
+                                            "press": ".extension.productlistui.ext.controller.ListPageCustController.onHandleAddAll",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "requiresSelection": false,
+                                            "text": "Add Stock All CA"
+                                        },
+                                        "TestAct": {
+                                            "press": ".extension.productlistui.ext.controller.ListPageCustController.onTestAction",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "requiresSelection": false,
+                                            "text": "Test Action",
+                                            "position": {
+                                                "placement": "After",
+                                                "anchor": "TestActionAddAll"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                  }
+                },
+                "ProductsObjectPage": {
+                    "type": "Component",
+                    "id": "ProductsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "contextPath": "/Products",
+                            "content": {
+                                "body": {
+                                    "sections": {
+                                        "myCustomSection": {
+                                            "template": "productlistui.ext.fragment.externalData",
+                                            "title": "External Data",
+                                            "position": {
+                                                "placement": "After",
+                                                "anchor": "com.sap.vocabularies.UI.v1.FieldGroup::General"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
         },
-        "ProductsObjectPage": {
-          "type": "Component",
-          "id": "ProductsObjectPage",
-          "name": "sap.fe.templates.ObjectPage",
-          "options": {
-            "settings": {
-              "editableHeaderContent": false,
-              "contextPath": "/Products"
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.fe.templates.ObjectPage.ObjectPageController": {
+                        "controllerName": "productlistui.ext.controller.ObjPageCustController"
+                    },
+                    "sap.fe.templates.ListReport.ListReportController": {
+                        "controllerName": "productlistui.ext.controller.ListPageCustController"
+                    }
+                }
             }
-          }
         }
-      }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "exploreappui"
     }
-  },
-  "sap.fiori": {
-    "registrationIds": [],
-    "archeType": "transactional"
-  },
-  "sap.cloud": {
-    "public": true,
-    "service": "exploreappui"
-  }
 }

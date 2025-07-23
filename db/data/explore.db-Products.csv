@@ -1,3 +1,6 @@
 id;name;type;stock;unit;price;currency
 101;Mobile XX;Mobile;5;PC;15000;INR
 201;Laptop XX;Laptop;10;PC;45001;INR
+102;Laptop XX;Laptop;8;PC;45001;INR
+103;Laptop XX;Laptop;7;PC;45001;INR
+104;Laptop XX;Laptop;4;PC;45001;INR
