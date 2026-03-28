@@ -1,5 +1,50 @@
 const cds = require('@sap/cds');
+const { sendMail } = require('@sap-cloud-sdk/mail-client');
+const { getDestination } = require('@sap-cloud-sdk/connectivity');
+const nodemailer = require('nodemailer');
+
 module.exports = cds.service.impl( (srv) => {
+
+    srv.on("send_email", async (req) => {
+    const destination = await getDestination({
+      destinationName: 'sap_process_automation_mail'
+    });
+
+    console.log(destination.username);
+    const accessToken = destination.authTokens[0].value;
+    const transporter = nodemailer.createTransport({
+        host: destination.originalProperties.destinationConfiguration['mail.smtp.host'], //'smtp.office365.com',
+        port: destination.originalProperties.destinationConfiguration['mail.smtp.port'],
+        secure: false, // TLS
+        auth: {
+            type: 'OAuth2',
+            user: destination.username, //'SA-JX2-BTPDEV@kenvue.com',
+            accessToken: accessToken,
+        },
+    });
+    const info = await transporter.sendMail({
+        from: destination.originalProperties.destinationConfiguration['mail.smtp.from'], //'RA-JX2-BTP-DEVkenvue@kenvue.com',
+        to: ['anupar1@kenvue.com','anupam.duttaroy@innovervglobal.com'],
+        subject: 'CAPM Email',
+        text: 'This email was sent using Nodemailer and Microsoft OAuth2!',
+    });
+
+    console.log(info);
+
+    
+    // const mailConfig = {
+    //   from: 'RA-JX2-BTP-DEVkenvue@kenvue.com',  
+    //   to: 'anupar1@kenvue.com',
+    //   subject: 'Test Mail',
+    //   text: 'This is a test.'
+    // };
+    
+    // let result = await sendMail({ destinationName: 'sap_process_automation_mail' }, [mailConfig])
+    // .then((success)=>{console.log('Mail Sent ', success); return 'Mail Sent';})
+    // .catch((error) => {console.log('Error Occurred ', error); return 'Error Occurred';});
+
+    return 'Test';
+    });
 
     srv.on('UpdateStatus', (req) => {
         console.log(req.data);

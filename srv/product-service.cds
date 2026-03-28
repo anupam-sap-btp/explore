@@ -28,7 +28,7 @@ service ProductService {
             }
             action AddStock(stock : Integer) returns String;
         };
-
+    action send_email() returns String;
 // @Common.SideEffects: {TargetEntities: ['/ProductService.EntityContainer/Products']}
 // action unBoundAction();
 

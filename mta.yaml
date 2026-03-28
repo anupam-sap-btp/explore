@@ -127,7 +127,7 @@ resources:
     parameters:
       config:
         tenant-mode: dedicated
-        xsappname: explore-${org}-${space}
+        xsappname: explore-kvexp-${space}
       path: ./xs-security.json
       service: xsuaa
       service-name: explore-xsuaa-service
